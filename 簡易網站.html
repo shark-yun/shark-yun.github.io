@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+	<title>首頁</title>
+	<script>
+	var svg;
+	window.onload=function(){
+		svg=document.getElementById("svg");
+		svg.addEventListener("mousedown",mousedownSvg);
+	};	
+	
+	function mousedownSvg(e){
+		var x =e.clientX;
+		var y=e.clientY;
+		var bounding=this.getBoundingClientRect();
+		x=x-bounding.left;
+		y=y-bounding.top;
+		var line=createSvgElement("line",
+		{"x1":x,"y1":y,"x2":x,"y2":y,"stroke":"blue","stroke-width":2
+		});
+		this.appendChild(line);
+		var drag=function(e){
+			line.setAttribute("x2",e.clientX-bounding.left);
+			line.setAttribute("y2",e.clientY-bounding.top);
+			
+		};
+		var drop=function(){
+			document.removeEventListener("mousemove",drag);
+			document.removeEventListener("mouseup",drop);	
+		};
+		document.addEventListener("mousemove",drag);
+		document.addEventListener("mouseup",drop);	
+	}
+	
+	function createSvgElement(tagName, attrs){
+		var element = document.createElementNS("http://www.w3.org/2000/svg",tagName)
+		for(var name in attrs){
+			element.setAttribute(name,attrs[name]);
+		}
+		return element;
+	}
+	</script>
+	
+	<style type="text/css">
+	.head{
+		background-color:#003344;color:white;font-weight:bold;font-size:50px;
+		text-align:center;padding:10px;
+		
+	}
+	.content{
+		width:1000px;margin-left:auto;margin-right:auto;
+	}
+	.box{
+		width:500px;padding:10px;margin:10px;background-color:white;
+		displar:inline-block;
+		  border: 1px solid#808080;
+          border-radius: 5px;
+	}
+	
+	
+
+        form {
+            line-height: 2em;
+            padding: 5px 10px;
+        }
+        form > input, form > select, form > textarea {
+                padding: 5px 10px;
+                border: 1px solid#808080;
+                border-radius: 5px;
+        }
+		form>.ok{
+			color:#008800;
+		}
+		form>input:valid+.ok{
+			display:inline;
+		}
+		form>input:invalid+.ok{
+			display:none;
+		}
+
+
+	.svg{
+		text-align:center;padding:10px;
+	}
+	</style>
+</head>
+
+<body style="margin:0px;background-color:#eeeeee;">
+	<div class="head">Welcome to Yun's Web</div>
+	<img src="head.jpg" width='300' />
+
+	<div calss="content">
+		<div class="introBox">
+		<h3>Intro</h3>
+		<div class="box">
+			Hi, heres Yun Lin ~ </br>
+			Open to any position related to engineer and data. </br>
+			Looking for a team that everyone loves learning and willing to share with each one~
+		</div>
+		</div>
+
+	<h3>Contact Form</h3>
+	<form onsubmit="alert('submitted');">
+		名字 Name: <input type="text" required placeholder="你的稱呼" />
+			<span class="ok">ok</span><br />
+		電子郵箱 Email: <input type="email" required/>
+			<span class="ok">ok</span><br />
+		電話號碼 Phone Number: <input type="text" pattern="[0-9] {8,12}" />
+		<br />
+		原因 Purpose: <select required>
+			<option value="">原因</option>
+			<option value="study1">學習研究</option>
+			<option value="study2">留學問題</option>
+			<option value="work">工作機會 </option>
+			<option value="otehrs">其他 </option>
+		</select><br />內容:<br />
+		<textarea cols="50" rows="10"></textarea>
+		<br />
+
+		<input type="submit" value="送出資料">
+	</form>
+
+
+
+
+	#空白畫布
+	<svg id="svg" width="800" height="480" style="border:1px solid#000000;">
+	</svg>
+
+<footer>&copy; Yun Lin. All rights Reserved.</footer>
+</body>
+</html>
